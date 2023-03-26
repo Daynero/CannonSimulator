@@ -2,16 +2,16 @@ using UnityEngine;
 
 public class Bullet : MonoBehaviour
 {
+    [SerializeField] private GameObject bulletImpact;
     private float _power;
     private const float Gravity = 9.81f;
-    private float _deltaTime;  
-    
+    private float _deltaTime;
+
     private Vector3 _velocity;
     private Vector3 _direction;
     private MeshFilter _meshFilter;
     private MeshRenderer _meshRenderer;
 
-    private bool _isDestroyed;
     private int _ricochetsCount;
     private TrailRenderer _trailRenderer;
 
@@ -33,35 +33,35 @@ public class Bullet : MonoBehaviour
 
     private void Update()
     {
-        if (!_isDestroyed)
+        transform.position += _velocity * _deltaTime;
+        transform.rotation = Quaternion.LookRotation(_velocity, Vector3.up);
+
+        if (Physics.Raycast(transform.position, _velocity, out var hit, _velocity.magnitude * _deltaTime))
         {
-            transform.position += _velocity * _deltaTime;
-            transform.rotation = Quaternion.LookRotation(_velocity, Vector3.up);
+            Vector3 normal = hit.normal;
+            _velocity = Vector3.Reflect(_velocity, normal);
+            _ricochetsCount++;
 
-            if (Physics.Raycast(transform.position, _velocity, out var hit, _velocity.magnitude * _deltaTime))
+            if (_ricochetsCount >= 3)
             {
-                Vector3 normal = hit.normal;
-                _velocity = Vector3.Reflect(_velocity, normal);
-                _ricochetsCount++;
-
-                if (_ricochetsCount >= 3)
-                {
-                    _isDestroyed = true;
-                    _trailRenderer.emitting = false;
-                    LeaveTrailOnSurface(hit.point);
-                    Destroy(gameObject, 2f);
-                }
-            }
-            else
-            {
-                _velocity += Vector3.down * Gravity * _deltaTime;
+                DestroyBullet(hit);
             }
         }
+        else
+        {
+            _velocity += Vector3.down * Gravity * _deltaTime;
+        }
+    }
+
+    private void DestroyBullet(RaycastHit hit)
+    {
+        LeaveTrailOnSurface(hit.point);
+        Destroy(gameObject);
     }
 
     private void LeaveTrailOnSurface(Vector3 hitPoint)
     {
-        GameObject impactEffect = Instantiate(Resources.Load<GameObject>("BulletImpact"));
+        GameObject impactEffect = Instantiate(bulletImpact);
         impactEffect.transform.position = hitPoint;
         impactEffect.transform.up = hitPoint.normalized;
     }
