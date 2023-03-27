@@ -1,4 +1,5 @@
 using Core;
+using Enums;
 
 namespace Screens.LoadingScreen
 {
@@ -14,7 +15,7 @@ namespace Screens.LoadingScreen
         public void OnStart()
         {
             _screenNavigationSystem.ExecuteNavigationCommand(
-                new NavigationCommand().ShowNextScreen(ScreenName.MainScreen).CloseAfterNextScreenShown());
+                new NavigationCommand().ShowNextScreen(ObjectName.MainScreen).CloseAfterNextScreenShown());
         }
     }
 }

@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Enums;
 using UnityEngine;
 using XmannaSDK.Core;
 
@@ -10,31 +11,31 @@ namespace Core
     public class ScreenNavigationSystem : IScreenNavigationSystem
     {
         private readonly List<ScreenView> _navigationStack = new();
-        private readonly Dictionary<ScreenName, ScreenView> _availableScreens = new();
+        private readonly Dictionary<ObjectName, ScreenView> _availableScreens = new();
         private readonly Queue<NavigationCommand> _nextScreenInfos = new();
         private readonly Queue<NextScreenInfo> _waitingScreenInfos = new();
 
         private ScreenView _currentShowAnimatedScreenView;
         private IEnumerator _showInformationProcess;
-        private readonly Action<ScreenName> _getScreenAction;
+        private readonly Action<ObjectName> _getScreenAction;
 
-        public ScreenNavigationSystem(Action<ScreenName> getScreenAction)
+        public ScreenNavigationSystem(Action<ObjectName> getScreenAction)
         {
             _getScreenAction = getScreenAction;
         }
 
-        private void GetNewScreen(ScreenName name)
+        private void GetNewScreen(ObjectName name)
         {
             _getScreenAction.Invoke(name);
         }
 
-        public void AddScreen(ScreenName name, ScreenView screenView)
+        public void AddScreen(ObjectName name, ScreenView screenView)
         {
             _availableScreens.Add(name, screenView);
             screenView.MakeInvisible();
             screenView.OnClose = delegate { Close(screenView); };
 
-            if (name != ScreenName.LoadingScreen) return;
+            if (name != ObjectName.LoadingScreen) return;
 
             AddScreenToStack(screenView);
             screenView.ShowOnPosition(null);
@@ -52,7 +53,7 @@ namespace Core
                 if (navigationCommand.IsCloseCurrentScreen)
                 {
                     ScreenView screenToClose = _navigationStack.Find(screenView =>
-                        screenView.ScreenName == navigationCommand.ScreenToClose);
+                        screenView.ObjectName == navigationCommand.ObjectToClose);
                     if (screenToClose != null)
                         Close(screenToClose, navigationCommand.IsNextScreenInQueue());
                 }
@@ -60,17 +61,17 @@ namespace Core
 
             if (!navigationCommand.IsNextScreenInQueue()) return;
 
-            Show(navigationCommand.NextScreenName, navigationCommand.ExtraData);
+            Show(navigationCommand.NextObjectName, navigationCommand.ExtraData);
         }
 
         private void PreparePreviousScreens(NavigationCommand navigationCommand)
         {
-            if (!_availableScreens.ContainsKey(navigationCommand.NextScreenName))
+            if (!_availableScreens.ContainsKey(navigationCommand.NextObjectName))
             {
-                GetNewScreen(navigationCommand.NextScreenName);
+                GetNewScreen(navigationCommand.NextObjectName);
             }
 
-            var nextScreen = _availableScreens[navigationCommand.NextScreenName];
+            var nextScreen = _availableScreens[navigationCommand.NextObjectName];
 
             //lay stack under next screen layer to correct show animation
             LayStackUnderNextScreen(nextScreen);
@@ -109,37 +110,37 @@ namespace Core
             }
         }
 
-        private void Show(ScreenName screenName, object extraData = null, bool withAnim = true, bool delayed = false)
+        private void Show(ObjectName objectName, object extraData = null, bool withAnim = true, bool delayed = false)
         {
-            Debug.Log("Try to show screen " + screenName);
+            Debug.Log("Try to show screen " + objectName);
             if (_navigationStack.Count != 0)
             {
-                if (!_availableScreens.ContainsKey(screenName))
+                if (!_availableScreens.ContainsKey(objectName))
                 {
-                    Debug.LogError("Cannot show screen. No such screen type " + screenName);
-                    GetNewScreen(screenName);
+                    Debug.LogError("Cannot show screen. No such screen type " + objectName);
+                    GetNewScreen(objectName);
                 }
 
-                if (_currentShowAnimatedScreenView == _availableScreens[screenName])
+                if (_currentShowAnimatedScreenView == _availableScreens[objectName])
                 {
-                    Debug.LogError("You are trying to show the same screen again. " + screenName);
+                    Debug.LogError("You are trying to show the same screen again. " + objectName);
                     return;
                 }
 
                 if (_currentShowAnimatedScreenView != null && withAnim)
                 {
                     Debug.Log("animation of another screen is still running (WAIT)");
-                    if (_waitingScreenInfos.Any(info => info.Name == screenName)) return;
+                    if (_waitingScreenInfos.Any(info => info.Name == objectName)) return;
                     _waitingScreenInfos.Enqueue(new NextScreenInfo
                     {
-                        Name = screenName,
+                        Name = objectName,
                         ExtraData = extraData,
                     });
                     return;
                 }
             }
 
-            var screenView = _availableScreens[screenName];
+            var screenView = _availableScreens[objectName];
             CheckRootScreenShown(screenView);
 
             AddScreenToStack(screenView);
@@ -223,20 +224,13 @@ namespace Core
 
         private class NextScreenInfo
         {
-            public ScreenName Name;
+            public ObjectName Name;
             public object ExtraData;
         }
 
-        private ScreenName _overlayOpenBy;
+        private ObjectName _overlayOpenBy;
 
     }
-
-    public enum ScreenName
-    {
-        LoadingScreen,
-        MainScreen
-    }
-
 
     public interface IScreenNavigationSystem
     {

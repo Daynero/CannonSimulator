@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class BulletGenerator : MonoBehaviour
+public class BulletGenerator : MonoBehaviour, IBulletGenerator
 {
     [SerializeField] private Bullet bulletPrefab;
     [SerializeField] private Transform spawnPointTransform;

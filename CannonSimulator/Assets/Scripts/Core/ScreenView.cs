@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections;
-using System.Collections.Generic;
-using Core;
+using Enums;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace XmannaSDK.Core
 {
@@ -10,25 +10,25 @@ namespace XmannaSDK.Core
     [RequireComponent(typeof(UILayerConfigurator))]
     public class ScreenView : MonoBehaviour, IScreenView
     {
-        [Header("Screen name")] [Tooltip("This should be unique screen name for navigation system")] [SerializeField]
-        private ScreenName _screenName;
+        [FormerlySerializedAs("_screenName")] [Header("Screen name")] [Tooltip("This should be unique screen name for navigation system")] [SerializeField]
+        private ObjectName objectName;
 
-        [HideInInspector] public event Action<object> OnShowCallback;
-        [HideInInspector] public event Action OnGotFocusCallback;
-        [HideInInspector] public event Action OnLostFocusCallback;
-        [HideInInspector] public Action OnClose;
+        public event Action<object> OnShowCallback;
+        public event Action OnGotFocusCallback;
+        public event Action OnLostFocusCallback;
+        public Action OnClose;
         
         public event Action OnScreenActivated;
         private bool _isOnPosition;
         private float _inactiveTimer;
         private CanvasGroup _canvasGroup;
         [HideInInspector] public bool ShouldPutInNavStack = true;
-        [HideInInspector] public bool IsTransparent = false;
+        [HideInInspector] public bool IsTransparent;
         private bool _isFocused;
         private UILayerConfigurator _uiLayerConfigurator;
         private IEnumerator _turnOffProcess;
 
-        public ScreenName ScreenName => _screenName;
+        public ObjectName ObjectName => objectName;
         public bool IsFocused => _isFocused;
         public CanvasGroup CanvasGroup => _canvasGroup ??= GetComponent<CanvasGroup>();
         public bool IsRootScreen => UILayerConfigurator.GetOrderLayer() == UIOrderLayer.Root;
@@ -52,14 +52,14 @@ namespace XmannaSDK.Core
 
         private void ActivateScreen()
         {
-            Debug.Log("ScreenActivate: " + _screenName);
+            Debug.Log("ScreenActivate: " + objectName);
             gameObject.SetActive(true);
             OnScreenActivated?.Invoke();
         }
 
         private void DeactivateScreen()
         {
-            Debug.Log("ScreenDeactivate: " + _screenName);
+            Debug.Log("ScreenDeactivate: " + objectName);
             MakeInvisible();
             LostFocus();
         }
@@ -78,7 +78,7 @@ namespace XmannaSDK.Core
             CanvasGroup.blocksRaycasts = true;
             CanvasGroup.alpha = 1;
             UILayerConfigurator.BackToDefaultOrder();
-            Debug.Log("ScreenGotFocus: " + _screenName);
+            Debug.Log("ScreenGotFocus: " + objectName);
             OnGotFocusCallback?.Invoke();
         }
 
@@ -87,7 +87,7 @@ namespace XmannaSDK.Core
             if (!_isFocused) return;
             _isFocused = false;
             CanvasGroup.interactable = false;
-            Debug.Log("ScreenLostFocus: " + _screenName);
+            Debug.Log("ScreenLostFocus: " + objectName);
             OnLostFocusCallback?.Invoke();
         }
 
@@ -133,6 +133,6 @@ namespace XmannaSDK.Core
         void CloseScreen();
         bool IsFocused { get; }
         UILayerConfigurator UILayerConfigurator { get; }
-        ScreenName ScreenName { get; }
+        ObjectName ObjectName { get; }
     }
 }

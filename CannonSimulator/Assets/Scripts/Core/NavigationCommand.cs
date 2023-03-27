@@ -1,9 +1,11 @@
+using Enums;
+
 namespace Core
 {
     public class NavigationCommand
     {
-        public ScreenName NextScreenName => _nextScreenName;
-        public ScreenName ScreenToClose => _screenToClose;
+        public ObjectName NextObjectName => _nextObjectName;
+        public ObjectName ObjectToClose => _objectToClose;
 
         public object ExtraData => _extraData;
         public bool IsCloseCurrentScreen => _isCloseCurrentScreen;
@@ -12,13 +14,13 @@ namespace Core
         private object _extraData;
         private bool _isCloseLastScreen;
         private bool _isCloseCurrentScreen;
-        private ScreenName _nextScreenName;
-        private ScreenName _screenToClose;
+        private ObjectName _nextObjectName;
+        private ObjectName _objectToClose;
         private bool _closeAfterNextScreenShown;
 
-        public NavigationCommand ShowNextScreen(ScreenName screenName)
+        public NavigationCommand ShowNextScreen(ObjectName objectName)
         {
-            _nextScreenName = screenName;
+            _nextObjectName = objectName;
             return this;
         }
 
@@ -28,9 +30,9 @@ namespace Core
             return this;
         }
 
-        public NavigationCommand CloseScreen(ScreenName screenName)
+        public NavigationCommand CloseScreen(ObjectName objectName)
         {
-            _screenToClose = screenName;
+            _objectToClose = objectName;
             _isCloseCurrentScreen = true;
             return this;
         }
@@ -43,7 +45,7 @@ namespace Core
 
         public bool IsNextScreenInQueue()
         {
-            return !string.IsNullOrEmpty(_nextScreenName.ToString());
+            return !string.IsNullOrEmpty(_nextObjectName.ToString());
         }
     }
 }

@@ -634,9 +634,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fc6fed7a7b164889a24fd3dae51bfed1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _screenName: 1
+  objectName: 1
   ShouldPutInNavStack: 1
   IsTransparent: 0
+  bulletSpeedSlider: {fileID: 5345146184964751765}
 --- !u!1 &5345146186262630651
 GameObject:
   m_ObjectHideFlags: 0
