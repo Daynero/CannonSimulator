@@ -9834,6 +9834,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2316059222610283167}
+  - component: {fileID: 7564185462524669532}
   m_Layer: 0
   m_Name: BulletImpact
   m_TagString: Untagged
@@ -9865,6 +9866,18 @@ RectTransform:
   m_AnchoredPosition: {x: 1.5, y: 5.42}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &7564185462524669532
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4641452037876502430}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a4e4ce344f894452a8a0ed9acfe41d66, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &7149267665460878476
 GameObject:
   m_ObjectHideFlags: 0

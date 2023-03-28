@@ -45,6 +45,19 @@ public class CannonController
         SetTrajectoryLine();
     }
 
+    private void Fire()
+    {
+        _cannonView.CameraShake.ShakeCamera();
+        _cannonView.GunRecoil.Fire();
+        _bulletGenerator.GenerateBullet(_cannonView.BarrelTransform.forward, _bulletSpeed);
+    }
+
+    private void SetBulletSpeed(float speed)
+    {
+        _bulletSpeed = speed * BulletSpeedMultiplier + InitialBulletSpeed;
+        SetTrajectoryLine();
+    }
+
     private void UpdateBarrelRotation(float barrelRotationDelta)
     {
         _barrelAngleY = Mathf.Clamp(_barrelAngleY + barrelRotationDelta, -MaxBarrelAngle, 0f);
@@ -70,13 +83,6 @@ public class CannonController
         }
     }
 
-    private void Fire()
-    {
-        _cannonView.CameraShake.ShakeCamera();
-        _cannonView.GunRecoil.Fire();
-        _bulletGenerator.GenerateBullet(_cannonView.BarrelTransform.forward, _bulletSpeed);
-    }
-
     private void SetTrajectoryLine()
     {
         Vector3 initialVelocity = _cannonView.BarrelTransform.forward * _bulletSpeed;
@@ -90,11 +96,5 @@ public class CannonController
         }
 
         _cannonView.SetTrajectoryLine(points);
-    }
-
-    private void SetBulletSpeed(float speed)
-    {
-        _bulletSpeed = speed * BulletSpeedMultiplier + InitialBulletSpeed;
-        SetTrajectoryLine();
     }
 }

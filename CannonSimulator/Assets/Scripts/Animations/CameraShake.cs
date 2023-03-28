@@ -1,34 +1,37 @@
 using UnityEngine;
 
-public class CameraShake : MonoBehaviour
+namespace Animations
 {
-    [SerializeField] private float shakeAmount = 0.05f;
-    [SerializeField] private float shakeDuration = 0.1f;
-
-    private Vector3 _originalPosition;
-    private float _shakeTimer;
-
-    private void Awake()
+    public class CameraShake : MonoBehaviour
     {
-        _originalPosition = transform.localPosition;
-    }
+        [SerializeField] private float shakeAmount = 0.05f;
+        [SerializeField] private float shakeDuration = 0.1f;
 
-    private void Update()
-    {
-        if (_shakeTimer > 0f)
+        private Vector3 _originalPosition;
+        private float _shakeTimer;
+
+        private void Awake()
         {
-            transform.localPosition = _originalPosition + Random.insideUnitSphere * shakeAmount;
-            _shakeTimer -= Time.deltaTime;
+            _originalPosition = transform.localPosition;
         }
-        else
-        {
-            _shakeTimer = 0f;
-            transform.localPosition = _originalPosition;
-        }
-    }
 
-    public void ShakeCamera()
-    {
-        _shakeTimer = shakeDuration;
+        private void Update()
+        {
+            if (_shakeTimer > 0f)
+            {
+                transform.localPosition = _originalPosition + Random.insideUnitSphere * shakeAmount;
+                _shakeTimer -= Time.deltaTime;
+            }
+            else
+            {
+                _shakeTimer = 0f;
+                transform.localPosition = _originalPosition;
+            }
+        }
+
+        public void ShakeCamera()
+        {
+            _shakeTimer = shakeDuration;
+        }
     }
 }

@@ -4,7 +4,6 @@ using Enums;
 using Objects.Cannon;
 using Screens.LoadingScreen;
 using Screens.MainScreen;
-using XmannaSDK.Core;
 
 namespace Core
 {
@@ -44,8 +43,6 @@ namespace Core
         private void Start()
         {
             Initialize();
-            
-            _loadingScreenPresenter.OnStart();
         }
 
         private void Initialize()

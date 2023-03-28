@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Linq;
 using Enums;
 using UnityEngine;
-using XmannaSDK.Core;
 
 namespace Core
 {
@@ -73,7 +72,6 @@ namespace Core
 
             var nextScreen = _availableScreens[navigationCommand.NextObjectName];
 
-            //lay stack under next screen layer to correct show animation
             LayStackUnderNextScreen(nextScreen);
 
             var peek = _navigationStack.Last();
@@ -199,7 +197,6 @@ namespace Core
                 _navigationStack.Remove(screenView);
                 LogStack("Screen REMOVED from stack " + screenView.name);
                 screenView.LostFocus();
-                screenView.DisactivateScreenWithDelay(1f);
                 if (_waitingScreenInfos.Count > 0)
                 {
                     var waitingScreenInfo = _waitingScreenInfos.Dequeue();

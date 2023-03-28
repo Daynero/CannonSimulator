@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace XmannaSDK.Core
+namespace Core
 {
     [RequireComponent(typeof(Canvas))]
     [RequireComponent(typeof(GraphicRaycaster))]
@@ -68,14 +68,7 @@ namespace XmannaSDK.Core
     [Serializable]
     public enum UIOrderLayer
     {
-        Start = 0,
         Root = 1,
-        RootOverlay = 2,
-        NavBar = 3,
-        UserDataPanel = 4,
-        Others = 5,
-        Popups = 6,
-        Toasts = 7
     }
 
 }

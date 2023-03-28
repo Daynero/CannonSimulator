@@ -1,7 +1,7 @@
 using System;
+using Core;
 using UnityEngine;
 using UnityEngine.UI;
-using XmannaSDK.Core;
 
 namespace Screens.MainScreen
 {
