@@ -13,6 +13,7 @@ public class CannonController
     private const float MaxBaseAngle = 40f;
     private const float MinBaseAngle = -40f;
     private const float BulletSpeedMultiplier = 20f;
+    private const float InitialBulletSpeed = 2;
 
     private float _baseAngle;
     private float _barrelAngleY;
@@ -39,6 +40,9 @@ public class CannonController
         _cannonView.OnBarrelRotationChanged += UpdateBarrelRotation;
         _cannonView.OnBaseRotationChanged += UpdateBaseRotation;
         _mainScreenPresenter.OnBulletSpeedChanged += SetBulletSpeed;
+
+        _bulletSpeed = InitialBulletSpeed;
+        SetTrajectoryLine();
     }
 
     private void UpdateBarrelRotation(float barrelRotationDelta)
@@ -68,6 +72,8 @@ public class CannonController
 
     private void Fire()
     {
+        _cannonView.CameraShake.ShakeCamera();
+        _cannonView.GunRecoil.Fire();
         _bulletGenerator.GenerateBullet(_cannonView.BarrelTransform.forward, _bulletSpeed);
     }
 
@@ -88,7 +94,7 @@ public class CannonController
 
     private void SetBulletSpeed(float speed)
     {
-        _bulletSpeed = speed * BulletSpeedMultiplier;
+        _bulletSpeed = speed * BulletSpeedMultiplier + InitialBulletSpeed;
         SetTrajectoryLine();
     }
 }

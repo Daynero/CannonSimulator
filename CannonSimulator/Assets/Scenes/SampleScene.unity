@@ -282,7 +282,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 291161657}
   m_LocalRotation: {x: 0, y: 0, z: 0.26100993, w: 0.96533614}
-  m_LocalPosition: {x: 42.61, y: 0.76, z: 0}
+  m_LocalPosition: {x: 15.36, y: 0.68, z: -0.91}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -804,6 +804,7 @@ GameObject:
   - component: {fileID: 963194228}
   - component: {fileID: 963194227}
   - component: {fileID: 963194226}
+  - component: {fileID: 963194229}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -877,6 +878,20 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &963194229
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 963194225}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c63b3360bc474434895c1e611d101a72, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  shakeAmount: 0.02
+  shakeDuration: 0.05
 --- !u!1 &1272262884
 GameObject:
   m_ObjectHideFlags: 0
@@ -937,6 +952,7 @@ GameObject:
   - component: {fileID: 1398260419}
   - component: {fileID: 1398260418}
   - component: {fileID: 1398260417}
+  - component: {fileID: 1398260420}
   m_Layer: 0
   m_Name: Capsule
   m_TagString: Untagged
@@ -1023,6 +1039,20 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1398260415}
   m_Mesh: {fileID: 10208, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &1398260420
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1398260415}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a53c67629eca43f8a40172294ba6b3c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  recoilForce: 0.48
+  recoilDuration: 0.1
 --- !u!1 &1641223288
 GameObject:
   m_ObjectHideFlags: 0
@@ -1276,6 +1306,8 @@ MonoBehaviour:
   barrel: {fileID: 495085222}
   spawnPointTransform: {fileID: 414877685}
   bulletGenerator: {fileID: 1272262885}
+  "\u0441ameraShake": {fileID: 963194229}
+  gunRecoil: {fileID: 1398260420}
   rotationSpeed: 30
 --- !u!114 &1957847800
 MonoBehaviour:

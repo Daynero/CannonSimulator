@@ -8,6 +8,8 @@ namespace Objects.Cannon
         public Transform BarrelTransform { get; }
         public Transform SpawnPointTransform { get; }
         public IBulletGenerator BulletGenerator { get; }
+        public CameraShake CameraShake { get; }
+        public GunRecoil GunRecoil { get; }
         public event Action OnFireClicked;
         public event Action<float> OnBaseRotationChanged;
         public event Action<float> OnBarrelRotationChanged;

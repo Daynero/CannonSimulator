@@ -9,6 +9,8 @@ namespace Objects.Cannon
         [SerializeField] private Transform barrel;
         [SerializeField] private Transform spawnPointTransform;
         [SerializeField] private BulletGenerator bulletGenerator;
+        [SerializeField] private CameraShake сameraShake;
+        [SerializeField] private GunRecoil gunRecoil;
         
         [SerializeField] private float rotationSpeed = 30f;
         
@@ -17,6 +19,8 @@ namespace Objects.Cannon
         public Transform BarrelTransform => barrel;
         public Transform SpawnPointTransform => spawnPointTransform;
         public IBulletGenerator BulletGenerator => bulletGenerator;
+        public CameraShake CameraShake => сameraShake;
+        public GunRecoil GunRecoil => gunRecoil;
 
         public event Action OnFireClicked;
         public event Action<float> OnBaseRotationChanged;

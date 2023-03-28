@@ -15,12 +15,14 @@ namespace Screens.MainScreen
             _mainScreenView = mainScreenView;
             _screenNavigationSystem = screenNavigationSystem;
             
-            _mainScreenView.OnBulletSpeedChanged += HandleBulletSpeedChanged;
+            _mainScreenView.OnBulletSpeedChanged += HandleBulletPowerChanged;
         }
 
-        private void HandleBulletSpeedChanged(float speed)
+        private void HandleBulletPowerChanged(float power)
         {
-            OnBulletSpeedChanged?.Invoke(speed);
+            string powerText = Math.Round(power * 100).ToString();
+            _mainScreenView.SetPowerText(powerText);
+            OnBulletSpeedChanged?.Invoke(power);
         }
     }
 }

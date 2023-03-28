@@ -323,7 +323,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 999
+  m_Text: 0
 --- !u!1 &5345146185387328135
 GameObject:
   m_ObjectHideFlags: 0
@@ -638,6 +638,7 @@ MonoBehaviour:
   ShouldPutInNavStack: 1
   IsTransparent: 0
   bulletSpeedSlider: {fileID: 5345146184964751765}
+  powerValueText: {fileID: 5345146185182375835}
 --- !u!1 &5345146186262630651
 GameObject:
   m_ObjectHideFlags: 0

@@ -49,21 +49,21 @@ public class Bullet : MonoBehaviour
         }
         else
         {
-            _velocity += Vector3.down * Gravity * _deltaTime;
+            _velocity += Vector3.down * (Gravity * _deltaTime);
         }
     }
 
     private void DestroyBullet(RaycastHit hit)
     {
-        LeaveTrailOnSurface(hit.point);
+        LeaveTrailOnSurface(hit.point, hit.normal);
         Destroy(gameObject);
     }
 
-    private void LeaveTrailOnSurface(Vector3 hitPoint)
+    private void LeaveTrailOnSurface(Vector3 hitPoint, Vector3 hitNormal)
     {
         GameObject impactEffect = Instantiate(bulletImpact);
         impactEffect.transform.position = hitPoint;
-        impactEffect.transform.up = hitPoint.normalized;
+        impactEffect.transform.rotation = Quaternion.LookRotation(_velocity, hitNormal);
     }
 
     public void SetParameters(Vector3 direction, float power)
